@@ -1,0 +1,6 @@
+  The following service(s) have been created in your project: {{ include "postgresql.fullname" . }}.
+
+         Username: {{ .Values.postgresql.user }}
+         Password: {{ .Values.postgresql.password }}
+    Database Name: {{ .Values.postgresql.database }}
+   Connection URL: postgresql://{{ include "postgresql.fullname" . }}:5432/
