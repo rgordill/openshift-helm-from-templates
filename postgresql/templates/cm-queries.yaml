@@ -262,6 +262,7 @@ data:
           ARRAY_AGG(bucket) AS seconds_bucket
         FROM metrics JOIN buckets USING (application_name)
         GROUP BY 1, 2, 3
+      master: true
       metrics:
         - application_name:
             usage: "LABEL"
