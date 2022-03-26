@@ -19,3 +19,5 @@ postgresql:
   database: sampledb
   # user: 
   # password: 
+
+monitor: true

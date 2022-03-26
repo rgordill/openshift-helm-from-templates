@@ -59,9 +59,74 @@ spec:
         volumeMounts:
         - mountPath: /var/lib/pgsql/data
           name: {{ include "postgresql.fullname" . }}-data
+        - name: extra-conf
+          mountPath: /opt/app-root/src/postgresql-cfg
+        - name: init-scripts
+          mountPath: /opt/app-root/src/postgresql-init
+      {{- if .Values.monitor }}
+      - name: postgresql-exporter
+        args:
+        - "--extend.query-path=/etc/config.yaml"
+        - "--disable-settings-metrics"
+        - "--auto-discover-databases"
+        env:
+        - name: DATA_SOURCE_HOST
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: DATA_SOURCE_URI
+          value: "$(DATA_SOURCE_HOST):5432/postgres?sslmode=disable"
+        - name: DATA_SOURCE_USER
+          valueFrom:
+            secretKeyRef:
+              key: database-user
+              name: {{ include "postgresql.fullname" . }}
+        - name: DATA_SOURCE_PASS
+          valueFrom:
+            secretKeyRef:
+              key: database-password
+              name: {{ include "postgresql.fullname" . }}
+        image: "quay.io/prometheuscommunity/postgres-exporter:v0.10.1"
+        imagePullPolicy: IfNotPresent
+        ports:
+          - name: http
+            containerPort: 9187
+            protocol: TCP
+        livenessProbe:
+          initialDelaySeconds: 0
+          timeoutSeconds: 1
+          httpGet:
+            path: /
+            port: http
+        readinessProbe:
+          initialDelaySeconds: 0
+          timeoutSeconds: 1
+          httpGet:
+            path: /
+            port: http
+        resources: {}
+        volumeMounts:
+          - name: queries
+            mountPath: /etc/config.yaml
+            subPath: config.yaml
+        {{ end }}
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       volumes:
       - name: {{ include "postgresql.fullname" . }}-data
         persistentVolumeClaim:
           claimName: {{ include "postgresql.fullname" . }}
+      {{- if .Values.monitor }}
+      - name: queries
+        configMap:
+          defaultMode: 420
+          name: {{ include "postgresql.fullname" . }}-common-exporter-queries
+      - name: extra-conf
+        configMap:
+          defaultMode: 420
+          name: {{ include "postgresql.fullname" . }}-conf
+      - name: init-scripts
+        configMap:
+          name: {{ include "postgresql.fullname" . }}-init
+          defaultMode: 0777
+      {{ end }}
