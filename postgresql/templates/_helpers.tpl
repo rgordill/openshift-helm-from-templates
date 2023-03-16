@@ -68,7 +68,7 @@ Create the postgresql user to use
 {{- if .Values.postgresql.user }}
 {{- .Values.postgresql.user }}
 {{- else }}
-{{- printf "%s%s" "user" randAlphaNum 3 }}
+{{- printf "%s%s" "user" (randAlphaNum 3) }}
 {{- end }}
 {{- end }}
 

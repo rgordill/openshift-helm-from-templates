@@ -74,8 +74,13 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
+        - name: DATA_SOURCE_DB
+          valueFrom:
+            secretKeyRef:
+              key: database-name
+              name: {{ include "postgresql.fullname" . }}
         - name: DATA_SOURCE_URI
-          value: "$(DATA_SOURCE_HOST):5432/postgres?sslmode=disable"
+          value: "$(DATA_SOURCE_HOST):5432/$(DATA_SOURCE_DB)?sslmode=disable"
         - name: DATA_SOURCE_USER
           valueFrom:
             secretKeyRef:
@@ -112,6 +117,10 @@ spec:
         {{ end }}
       dnsPolicy: ClusterFirst
       restartPolicy: Always
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       volumes:
       - name: {{ include "postgresql.fullname" . }}-data
         persistentVolumeClaim:
