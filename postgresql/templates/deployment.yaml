@@ -26,11 +26,20 @@ spec:
             secretKeyRef:
               key: database-password
               name: {{ include "postgresql.fullname" . }}
+        - name: POSTGRESQL_ADMIN_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: database-admin-password
+              name: {{ include "postgresql.fullname" . }}
         - name: POSTGRESQL_DATABASE
           valueFrom:
             secretKeyRef:
               key: database-name
               name: {{ include "postgresql.fullname" . }}
+       {{- if .Values.postgresql.logDestination }}
+        - name: POSTGRESQL_LOG_DESTINATION
+          value: {{ .Values.postgresql.logDestination }}
+      {{- end }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: IfNotPresent
         livenessProbe:
@@ -65,33 +74,31 @@ spec:
           mountPath: /opt/app-root/src/postgresql-init
       {{- if .Values.monitor }}
       - name: postgresql-exporter
-        args:
-        - "--extend.query-path=/etc/config.yaml"
-        - "--disable-settings-metrics"
-        - "--auto-discover-databases"
         env:
-        - name: DATA_SOURCE_HOST
+        - name: POD_NAME
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
-        - name: DATA_SOURCE_DB
+        - name: DATA_SOURCE_URI
+          value: "$(POD_NAME):5432/postgres?sslmode=disable"
+        - name: DATA_SOURCE_USER
+          value: postgres
+        - name: DATA_SOURCE_PASS
+          valueFrom:
+            secretKeyRef:
+              key: database-admin-password
+              name: {{ include "postgresql.fullname" . }}
+        - name: DBNAME
           valueFrom:
             secretKeyRef:
               key: database-name
               name: {{ include "postgresql.fullname" . }}
-        - name: DATA_SOURCE_URI
-          value: "$(DATA_SOURCE_HOST):5432/$(DATA_SOURCE_DB)?sslmode=disable"
-        - name: DATA_SOURCE_USER
-          valueFrom:
-            secretKeyRef:
-              key: database-user
-              name: {{ include "postgresql.fullname" . }}
-        - name: DATA_SOURCE_PASS
-          valueFrom:
-            secretKeyRef:
-              key: database-password
-              name: {{ include "postgresql.fullname" . }}
-        image: "quay.io/prometheuscommunity/postgres-exporter:v0.10.1"
+        args:
+        - "--auto-discover-databases"
+        - "--extend.query-path=/etc/config.yaml"
+        - "--log.format=json"
+        # - "--log.level=debug"
+        image: "quay.io/prometheuscommunity/postgres-exporter:latest"
         imagePullPolicy: IfNotPresent
         ports:
           - name: http

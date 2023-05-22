@@ -82,3 +82,14 @@ Create the postgresql password to use
 {{- randAlphaNum 16 }}
 {{- end }}
 {{- end }}
+
+{{/*
+Create the postgresql password to use
+*/}}
+{{- define "postgresql.adminPassword" -}}
+{{- if .Values.postgresql.adminPassword }}
+{{- .Values.postgresql.adminPassword }}
+{{- else }}
+{{- randAlphaNum 16 }}
+{{- end }}
+{{- end }}
