@@ -68,10 +68,12 @@ spec:
         volumeMounts:
         - mountPath: /var/lib/pgsql/data
           name: {{ include "postgresql.fullname" . }}-data
+      {{- if .Values.monitor }}
         - name: extra-conf
           mountPath: /opt/app-root/src/postgresql-cfg
         - name: init-scripts
           mountPath: /opt/app-root/src/postgresql-init
+      {{- end }}
       {{- if .Values.monitor }}
       - name: postgresql-exporter
         env:
