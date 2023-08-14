@@ -1,0 +1,29 @@
+{{- if .Values.ingress.enabled }}
+kind: Ingress
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: {{ include "ipaServer.fullname" . }}-https
+  annotations:
+    description: Ingress for FreeIPA server's HTTPS
+    {{- if and (.Values.openshift) (.Values.ingress.passthrough) }}
+    route.openshift.io/termination: "passthrough"
+    {{ end }}
+spec:
+  ingressClassName: {{ .Values.ingress.className }}
+  rules:
+  - host: {{ .Values.ingress.hostname }}
+    http:
+      paths:
+      - backend:
+          service:
+            name: {{ include "ipaServer.fullname" . }}
+            port:
+              number: 443
+    {{- if and (.Values.openshift) (.Values.ingress.passthrough) }}
+        path: ''
+        pathType: ImplementationSpecific
+    {{- else }}
+        path: /
+        pathType: Prefix
+    {{- end }}
+{{ end }}

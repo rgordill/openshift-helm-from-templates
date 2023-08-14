@@ -1,0 +1,46 @@
+
+image:
+  repository: quay.io/freeipa/freeipa-server
+  tag: centos-9-stream
+
+# fullnameOverride: ipaserver
+
+openshift: true
+
+volume:
+# Minimum: 2Gi needed if used slapd
+  size: 5Gi
+
+resources: 
+  limits:
+    memory: 512Mi
+
+serviceAccount: ipa-server
+
+ipaServer:
+  installOpts: -U -r EXAMPLE.TEST --setup-dns --no-forwarders --no-ntp
+  command: ipa-server-install
+  # Should be at least 8 chars
+  adminPassword: admin2023
+
+ingress:
+  enabled: true
+#   annotations:
+#     kubernetes.io/ingress.class: nginx
+#     kubernetes.io/tls-acme: "true"
+
+  className: openshift-default
+# Domain should match installopts domain
+  hostname: ipa-server.example.test
+  passthrough: true
+#  tls: not implemented 
+
+affinity: {}
+  # nodeAffinity:
+  #   requiredDuringSchedulingIgnoredDuringExecution:
+  #     nodeSelectorTerms:
+  #     - matchExpressions:
+  #       - key: kubernetes.io/hostname
+  #         operator: In
+  #         values:
+  #         - node1.example.com

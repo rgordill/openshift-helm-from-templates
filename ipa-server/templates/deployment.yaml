@@ -1,0 +1,103 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: {{ include "ipaServer.fullname" . }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "ipaServer.selectorLabels" . | nindent 6 }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        {{- include "ipaServer.selectorLabels" . | nindent 8 }}
+    spec:
+      volumes:
+      - name: {{ include "ipaServer.fullname" . }}-data
+        persistentVolumeClaim:
+          claimName: {{ include "ipaServer.fullname" . }}-data
+      - name: {{ include "ipaServer.fullname" . }}-shm
+        emptyDir: {}
+      - name: {{ include "ipaServer.fullname" . }}-run
+        emptyDir: {}
+      - name: {{ include "ipaServer.fullname" . }}-tmp
+        emptyDir: {}
+      - name: {{ include "ipaServer.fullname" . }}-journal
+        emptyDir: {}
+      containers:
+      - name: ipa-server
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        ports:
+        - containerPort: 53
+          protocol: TCP
+        - containerPort: 53
+          protocol: UDP
+        - containerPort: 80
+          protocol: TCP
+        - containerPort: 88
+          protocol: TCP
+        - containerPort: 88
+          protocol: UDP
+        - containerPort: 123
+          protocol: UDP
+        - containerPort: 389
+          protocol: TCP
+        - containerPort: 443
+          protocol: TCP
+        - containerPort: 464
+          protocol: TCP
+        - containerPort: 464
+          protocol: UDP
+        - containerPort: 636
+          protocol: TCP
+        env:
+        - name: IPA_SERVER_HOSTNAME
+          value: "{{ .Values.ingress.hostname }}"
+        - name: IPA_SERVER_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        - name: IPA_SERVER_INSTALL_OPTS
+          value: "{{ .Values.ipaServer.installOpts }}"
+        - name: PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: "{{ include "ipaServer.fullname" . }}-password"
+              key: admin.password
+        - name: DEBUG_TRACE
+          value: "1"
+        - name: DEBUG_NO_EXIT
+          value: "1"
+        # command:
+        # - sleep
+        # - infinity
+        args:
+        - "{{ .Values.ipaServer.command }}"
+        resources: {}
+        volumeMounts:
+        - name: "{{ include "ipaServer.fullname" . }}-data"
+          mountPath: "/data"
+        - name: "{{ include "ipaServer.fullname" . }}-shm"
+          mountPath: "/dev/shm"
+        - name: "{{ include "ipaServer.fullname" . }}-run"
+          mountPath: "/run"
+        - name: "{{ include "ipaServer.fullname" . }}-tmp"
+          mountPath: "/tmp"
+        - name: "{{ include "ipaServer.fullname" . }}-journal"
+          mountPath: "/var/log/journal"
+        # readinessProbe:
+        #   exec:
+        #     command:
+        #     - "/usr/bin/systemctl"
+        #     - status
+        #     - ipa
+        #   initialDelaySeconds: 60
+        #   timeoutSeconds: 10
+        #   periodSeconds: 10
+        #   successThreshold: 1
+        #   failureThreshold: 3
+      restartPolicy: Always
+      serviceAccountName: "{{ .Values.serviceAccount }}"
+      securityContext: {}

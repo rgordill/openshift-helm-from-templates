@@ -1,0 +1,6 @@
+  The following service(s) have been created in your project: {{ include "ipaServer.fullname" . }}.
+
+         Username: admin
+         Admin Password: {{ .Values.ipaServer.adminPassword }}
+   Connection URL: 
+         https://{{ .Values.ingress.hostname }}:443
