@@ -5,8 +5,8 @@ metadata:
   name: {{ include "postgresql.fullname" . }}
 spec:
   endpoints:
-  - path: /metrics
-    port: metrics
+  - path: /stats/prometheus
+    port: admin
   selector:
     matchLabels:
       {{- include "postgresql.selectorLabels" . | nindent 6 }}

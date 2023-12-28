@@ -69,60 +69,33 @@ spec:
         - mountPath: /var/lib/pgsql/data
           name: {{ include "postgresql.fullname" . }}-data
       {{- if .Values.monitor }}
-        - name: extra-conf
-          mountPath: /opt/app-root/src/postgresql-cfg
-        - name: init-scripts
-          mountPath: /opt/app-root/src/postgresql-init
-      {{- end }}
-      {{- if .Values.monitor }}
-      - name: postgresql-exporter
-        env:
-        - name: POD_NAME
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.name
-        - name: DATA_SOURCE_URI
-          value: "$(POD_NAME):5432/postgres?sslmode=disable"
-        - name: DATA_SOURCE_USER
-          value: postgres
-        - name: DATA_SOURCE_PASS
-          valueFrom:
-            secretKeyRef:
-              key: database-admin-password
-              name: {{ include "postgresql.fullname" . }}
-        - name: DBNAME
-          valueFrom:
-            secretKeyRef:
-              key: database-name
-              name: {{ include "postgresql.fullname" . }}
-        args:
-        - "--auto-discover-databases"
-        - "--extend.query-path=/etc/config.yaml"
-        - "--log.format=json"
-        # - "--log.level=debug"
-        image: "quay.io/prometheuscommunity/postgres-exporter:latest"
+      - name: envoy
+        image: "docker.io/envoyproxy/envoy:contrib-v1.28-latest"
         imagePullPolicy: IfNotPresent
         ports:
-          - name: http
-            containerPort: 9187
+          - name: admin
+            containerPort: 8000
+            protocol: TCP
+          - name: listener
+            containerPort: 15432
             protocol: TCP
         livenessProbe:
           initialDelaySeconds: 0
           timeoutSeconds: 1
           httpGet:
             path: /
-            port: http
+            port: admin
         readinessProbe:
           initialDelaySeconds: 0
           timeoutSeconds: 1
           httpGet:
             path: /
-            port: http
+            port: admin
         resources: {}
         volumeMounts:
-          - name: queries
-            mountPath: /etc/config.yaml
-            subPath: config.yaml
+        - mountPath: /etc/envoy/envoy.yaml
+          name: envoy-conf
+          subPath: envoy.yaml
         {{ end }}
       dnsPolicy: ClusterFirst
       restartPolicy: Always
@@ -135,16 +108,8 @@ spec:
         persistentVolumeClaim:
           claimName: {{ include "postgresql.fullname" . }}
       {{- if .Values.monitor }}
-      - name: queries
+      - name: envoy-conf
         configMap:
           defaultMode: 420
-          name: {{ include "postgresql.fullname" . }}-common-exporter-queries
-      - name: extra-conf
-        configMap:
-          defaultMode: 420
-          name: {{ include "postgresql.fullname" . }}-conf
-      - name: init-scripts
-        configMap:
-          name: {{ include "postgresql.fullname" . }}-init
-          defaultMode: 0777
+          name: {{ include "postgresql.fullname" . }}-envoy-conf
       {{ end }}
