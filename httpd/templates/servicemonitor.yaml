@@ -1,0 +1,15 @@
+{{- if .Values.monitor }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ include "httpd.fullname" . }}
+  labels:
+    {{- include "httpd.selectorLabels" . | nindent 4 }}
+spec:
+  endpoints:
+  - path: /metrics
+    port: prometheus
+  selector:
+    matchLabels:
+      {{- include "httpd.selectorLabels" . | nindent 6 }}
+{{ end }}

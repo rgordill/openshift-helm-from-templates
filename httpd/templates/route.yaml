@@ -1,0 +1,12 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: {{ include "httpd.fullname" . }}
+  labels:
+    {{- include "httpd.selectorLabels" . | nindent 4 }}
+spec:
+  to:
+    kind: Service
+    name: {{ include "httpd.fullname" . }}
+  port:
+    targetPort: web

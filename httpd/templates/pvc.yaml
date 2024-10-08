@@ -1,0 +1,13 @@
+{{- if .Values.storage }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "httpd.fullname" . }}-data
+spec:
+  storageClassName: {{ .Values.storage.storageClass }}
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.storage.size }}
+{{ end }}

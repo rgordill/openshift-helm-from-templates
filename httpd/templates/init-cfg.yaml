@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "httpd.fullname" . }}-init
+data:
+  50-init-git.sh: |
+    #!/bin/bash
+    export HOME=/tmp
+
+    set -x
+
+    # Requires URL and target directory
+    # REPO_URL="https://github.com/username/repository.git"
+    TARGET_DIR="/var/www/html"
+
+    # Check if the target directory exists
+    if [ -e "$TARGET_DIR/index.html" ]; then
+      # If the directory exists, navigate to it and perform a git pull
+      cd "$TARGET_DIR"
+      git config --global --add safe.directory /var/www/html
+      git pull
+    else
+      # If the directory does not exist, clone the repository
+      # As it is not allowed to clone if "lost+found" exists, we cannot do
+      # git clone "$REPO_URL" -b "$REPO_BRANCH" "$TARGET_DIR"
+      cd "$TARGET_DIR"
+      git config --global --add safe.directory /var/www/html
+      git init
+      git remote add origin "$REPO_URL"
+      git fetch
+      git checkout -t origin/"$REPO_BRANCH"
+    fi

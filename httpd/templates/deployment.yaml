@@ -1,0 +1,106 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    {{- include "httpd.selectorLabels" . | nindent 4 }}
+  name: {{ include "httpd.fullname" . }}
+spec:
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels:
+    {{- include "httpd.selectorLabels" . | nindent 6 }}
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+    {{- include "httpd.selectorLabels" . | nindent 8 }}
+      name: {{ include "httpd.fullname" . }}
+    spec:
+      initContainers:
+      # instead of an init container, maybe better to use a job?
+      - env:
+        - name: REPO_URL
+          value: {{ .Values.git.url }}
+        - name: REPO_BRANCH
+          value: {{ .Values.git.branch }}
+        name: git-download
+        image: registry.redhat.io/ubi9/toolbox
+        # TODO: iterate through all the scripts in the configmap
+        command: 
+        - '/tmp/init-scripts/50-init-git.sh'
+        volumeMounts:
+        - mountPath: /tmp/init-scripts
+          name: {{ include "httpd.fullname" . }}-init
+        - mountPath: /var/www/html
+          name: {{ include "httpd.fullname" . }}-data
+      containers:
+      - env: []
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        name: httpd
+        ports:
+        - containerPort: 8080
+          name: httpd
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 30
+          timeoutSeconds: 3
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 3
+          timeoutSeconds: 3
+        resources:
+          {{- toYaml .Values.resources | nindent 12 }}
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          privileged: false
+          runAsNonRoot: true
+          seccompProfile:
+            type: RuntimeDefault
+        volumeMounts:
+        - mountPath: /var/www/html
+          name: {{ include "httpd.fullname" . }}-data
+#        /opt/app-root/etc/httpd.d is where should be place in s2i
+        {{- if .Values.monitor.enabled }}
+        - mountPath: /etc/httpd/conf.d/status.conf
+          name: {{ include "httpd.fullname" . }}-cfg
+        {{ end }}
+      {{- if .Values.monitor.enabled }}
+      - image: "{{ .Values.monitor.image.repository }}:{{ .Values.monitor.image.tag }}"
+        name: httpd-exporter
+        ports:
+        - containerPort: 9117
+          name: prometheus
+        args:
+        - '--scrape_uri=http://localhost:8080/server-status/?auto'
+        - '--log.format=logfmt'
+      {{ end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      volumes:
+      - name: {{ include "httpd.fullname" . }}-data
+      {{- if .Values.storage }}
+        persistentVolumeClaim:
+          claimName: {{ include "httpd.fullname" . }}-data
+      {{- else }}
+        emptyDir: {}
+      {{ end }}
+      - name: {{ include "httpd.fullname" . }}-init
+        configMap:
+          defaultMode: 0755
+          name: {{ include "httpd.fullname" . }}-init
+      {{- if .Values.monitor.enabled }}
+      - name: {{ include "httpd.fullname" . }}-cfg
+        configMap:
+          defaultMode: 0755
+          name: {{ include "httpd.fullname" . }}-cfg
+      {{ end }}

@@ -1,0 +1,48 @@
+image:
+  repository: registry.redhat.io/ubi9/httpd-24
+#  repository: quay.io/fedora/httpd-24
+  tag: "latest"
+
+# fullnameOverride: apache-httpd
+
+storage:
+  size: 1Gi
+  storageClass: ocs-storagecluster-ceph-rbd
+
+service:
+  port: 8080
+
+resources: 
+  requests:
+    cpu: 1
+    memory: 512Mi
+  limits:
+    cpu: 1
+    memory: 512Mi
+
+replicas: 1
+
+ingress:
+  enabled: false
+  annotations: {}
+    # kubernetes.io/ingress.class: router-default
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: httpd-test.apps.ocp.sa-iberia.lab.eng.brq2.redhat.com
+      paths: []
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+git:
+  url: https://github.com/sclorg/httpd-ex.git
+  branch: master
+
+affinity: {}
+
+monitor:
+  enabled: true
+  image: 
+    repository: quay.io/lusitaniae/apache-exporter
+    tag: latest

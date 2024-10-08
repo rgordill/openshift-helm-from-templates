@@ -1,0 +1,12 @@
+description: A Helm chart for Apache Web Server on OpenShift
+name: httpd
+kubeVersion: '>=1.20.0'
+version: 0.0.1
+annotations:
+  charts.openshift.io/name: Apache HTTP Server (httpd)
+  charts.openshift.io/provider: Community
+  charts.openshift.io/providerType: Community
+apiVersion: v2
+appVersion: 0.0.1
+sources:
+  - https://github.com/TBD
