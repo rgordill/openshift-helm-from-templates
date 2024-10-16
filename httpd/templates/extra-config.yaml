@@ -3,8 +3,16 @@ kind: ConfigMap
 metadata:
   name: {{ include "httpd.fullname" . }}-cfg
 data:
+  {{- if .Values.monitor.enabled }}
   status.conf: |
     <Location "/server-status">
         SetHandler server-status
         Require host localhost
     </Location>
+  {{ end }}
+  headers.conf: |
+    ServerTokens Prod
+    ServerSignature Off
+  logging.conf: |
+    ErrorLogFormat "{ \"logtype\": \"error\", \"timestamp\": \"%t\", \"loglevel\": \"%l\", \"pid\": \"%P\", \"client\": \"%T\", \"message\": \"%M\" }"
+    LogFormat "{ \"logtype\": \"access\", \"ip\": \"%h\", \"user\": \"%u\", \"timestamp\": \"%t\", \"method\": \"%m\", \"path\": \"%U\", \"code\": \"%>s\", \"size\": \"%b\", \"referer\": \"%{Referer}i\", \"agent\": \"%{User-Agent}i\" }" json

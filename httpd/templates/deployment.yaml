@@ -28,7 +28,7 @@ spec:
         image: registry.redhat.io/ubi9/toolbox
         # TODO: iterate through all the scripts in the configmap
         command: 
-        - '/tmp/init-scripts/50-init-git.sh'
+        - '/tmp/init-scripts/90-init-git.sh'
         volumeMounts:
         - mountPath: /tmp/init-scripts
           name: {{ include "httpd.fullname" . }}-init
@@ -41,6 +41,8 @@ spec:
         ports:
         - containerPort: 8080
           name: httpd
+        - containerPort: 8443
+          name: httpds
         livenessProbe:
           httpGet:
             path: /
@@ -68,10 +70,18 @@ spec:
         - mountPath: /var/www/html
           name: {{ include "httpd.fullname" . }}-data
 #        /opt/app-root/etc/httpd.d is where should be place in s2i
-        {{- if .Values.monitor.enabled }}
-        - mountPath: /etc/httpd/conf.d/status.conf
+        - mountPath: /usr/share/container-scripts/httpd/pre-init/30-copy-certs-to-src.sh
+          name: {{ include "httpd.fullname" . }}-init
+          subPath: 30-copy-certs-to-src.sh
+        - mountPath: /usr/share/container-scripts/httpd/pre-init/60-config-log-json.sh
+          name: {{ include "httpd.fullname" . }}-init
+          subPath: 60-config-log-json.sh
+        - mountPath: /etc/httpd/conf.d/extra.conf
           name: {{ include "httpd.fullname" . }}-cfg
-        {{ end }}
+      {{- if .Values.certManager.enabled }}
+        - mountPath: /tmp/ssl
+          name: {{ include "httpd.fullname" . }}-ssl
+      {{ end }}
       {{- if .Values.monitor.enabled }}
       - image: "{{ .Values.monitor.image.repository }}:{{ .Values.monitor.image.tag }}"
         name: httpd-exporter
@@ -103,4 +113,10 @@ spec:
         configMap:
           defaultMode: 0755
           name: {{ include "httpd.fullname" . }}-cfg
+      {{ end }}
+      {{- if .Values.certManager.enabled }}
+      - name: {{ include "httpd.fullname" . }}-ssl
+        secret:
+          defaultMode: 0755
+          secretName: {{ include "httpd.fullname" . }}-ssl
       {{ end }}

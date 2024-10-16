@@ -3,8 +3,36 @@ kind: ConfigMap
 metadata:
   name: {{ include "httpd.fullname" . }}-init
 data:
-  50-init-git.sh: |
+  {{- if .Values.certManager.enabled }}
+  30-copy-certs-to-src.sh: |
     #!/bin/bash
+    # This scripts moves config and src files to the target folder
+    # They cannot be mounted directly, as there are mv and rm that
+    # are not allowed on mounted ConfigMap/Secrets
+
+    if [ -f /tmp/ssl/tls.crt ]; then
+      mkdir -p ${HTTPD_APP_ROOT}/httpd-ssl/certs/
+      cp /tmp/ssl/tls.crt ${HTTPD_APP_ROOT}/httpd-ssl/certs/server-cert.pem
+    fi
+
+    if [ -f /tmp/ssl/tls.key ]; then
+      mkdir -p ${HTTPD_APP_ROOT}/httpd-ssl/private/
+      cp /tmp/ssl/tls.key ${HTTPD_APP_ROOT}/httpd-ssl/private/server-key.pem
+    fi
+
+    # Removing indexes from root
+    sed -ri 's/Options Indexes FollowSymLinks/Options -Indexes/g' ${HTTPD_MAIN_CONF_PATH}/httpd.conf
+  {{- end }}
+  60-config-log-json.sh: |
+    #!/bin/bash
+    # config_log_json() {
+      sed -ri " s!^(\s*CustomLog\s+\S+\s+)combined!\1json!g;" ${HTTPD_MAIN_CONF_PATH}/httpd.conf
+    # }
+  90-init-git.sh: |
+    #!/bin/bash
+    #### This script cannot be injected in the image ####
+    #### as the image does not contain command 'git' ####
+
     export HOME=/tmp
 
     set -x

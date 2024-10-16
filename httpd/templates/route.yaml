@@ -10,3 +10,9 @@ spec:
     name: {{ include "httpd.fullname" . }}
   port:
     targetPort: web
+  tls:
+    {{- if .Values.certManager.enabled }}
+    termination: passthrough
+    {{- else }}
+    termination: edge
+    {{- end }}

@@ -1,0 +1,33 @@
+{{- if .Values.certManager.enabled }}
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  labels:
+    {{- include "httpd.selectorLabels" . | nindent 4 }}
+  name: {{ include "httpd.fullname" . }}
+spec:
+  commonName: {{ .Values.certManager.commonName }}
+  {{- with .Values.certManager.dnsNames }}
+  dnsNames:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  duration: 2160h0m0s
+  issuerRef:
+    {{- toYaml .Values.certManager.issuerRef | nindent 12 }}
+  privateKey:
+    algorithm: RSA
+    encoding: PKCS1
+    rotationPolicy: Always
+    size: 2048
+  renewBefore: 360h0m0s
+  secretName: {{ include "httpd.fullname" . }}-ssl
+  secretTemplate:
+    labels:
+      {{- include "httpd.selectorLabels" . | nindent 4 }}
+  subject:
+    organizations:
+    - apache-red-hat
+  usages:
+  - server auth
+  - client auth
+{{ end }}
