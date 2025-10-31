@@ -1,0 +1,33 @@
+image:
+  repository: registry.redhat.io/rhel9/redis-7
+#  repository: quay.io/fedora/postgresql-15
+  tag: "latest"
+
+# fullnameOverride: redis
+
+# storage:
+#   size: 1Gi
+#   storageClass: ocs-storagecluster-ceph-rbd
+#   storageClass: ocs-storagecluster-ceph-non-resilient-rbd
+
+service:
+  port: 6379
+
+resources: 
+  limits:
+    memory: 512Mi
+
+redis:
+  password: "redhat01"
+
+affinity: {}
+  # nodeAffinity:
+  #   requiredDuringSchedulingIgnoredDuringExecution:
+  #     nodeSelectorTerms:
+  #     - matchExpressions:
+  #       - key: kubernetes.io/hostname
+  #         operator: In
+  #         values:
+  #         - node1.example.com
+
+monitor: true

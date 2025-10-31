@@ -1,0 +1,5 @@
+The following service(s) have been created in your project: {{ include "redis.fullname" . }}.
+
+       Password: {{ .Values.redis.password }}
+ Connection URL: redis://{{ include "redis.fullname" . }}:6379/
+ 

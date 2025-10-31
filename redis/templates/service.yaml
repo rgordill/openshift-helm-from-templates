@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "redis.fullname" . }}
+  labels:
+    {{- include "redis.selectorLabels" . | nindent 8 }}
+  annotations:
+    template.openshift.io/expose-uri: redis://{.spec.clusterIP}:{.spec.ports[?(.name==\"redis\")].port}
+spec:
+  type: ClusterIP
+  sessionAffinity: None
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: 6379
+      protocol: TCP
+      name: redis
+    - port: 9121
+      targetPort: 9121
+      protocol: TCP
+      name: metrics
+  selector:
+    {{- include "redis.selectorLabels" . | nindent 4 }}
