@@ -14,6 +14,8 @@ spec:
       labels:
         {{- include "postgresql.selectorLabels" . | nindent 8 }}
     spec:
+      affinity:
+        {{- toYaml .Values.affinity | nindent 8 }}
       containers:
       - env:
         - name: POSTGRESQL_USER
@@ -36,10 +38,10 @@ spec:
             secretKeyRef:
               key: database-name
               name: {{ include "postgresql.fullname" . }}
-       {{- if .Values.postgresql.logDestination }}
+{{- if .Values.postgresql.logDestination }}
         - name: POSTGRESQL_LOG_DESTINATION
           value: {{ .Values.postgresql.logDestination }}
-      {{- end }}
+{{- end }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: IfNotPresent
         livenessProbe:
@@ -68,13 +70,13 @@ spec:
         volumeMounts:
         - mountPath: /var/lib/pgsql/data
           name: {{ include "postgresql.fullname" . }}-data
-      {{- if .Values.monitor }}
+{{- if .Values.monitor }}
         - name: extra-conf
           mountPath: /opt/app-root/src/postgresql-cfg
         - name: init-scripts
           mountPath: /opt/app-root/src/postgresql-init
-      {{- end }}
-      {{- if .Values.monitor }}
+{{- end }}
+{{- if .Values.monitor }}
       - name: postgresql-exporter
         env:
         - name: POD_NAME
@@ -126,15 +128,15 @@ spec:
         {{ end }}
       dnsPolicy: ClusterFirst
       restartPolicy: Always
-      {{- with .Values.affinity }}
-      affinity:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
       volumes:
       - name: {{ include "postgresql.fullname" . }}-data
+{{- if .Values.storage }}
         persistentVolumeClaim:
           claimName: {{ include "postgresql.fullname" . }}
-      {{- if .Values.monitor }}
+{{- else }}
+        emptyDir: {}
+{{ end }}
+{{- if .Values.monitor }}
       - name: queries
         configMap:
           defaultMode: 420
@@ -147,4 +149,4 @@ spec:
         configMap:
           name: {{ include "postgresql.fullname" . }}-init
           defaultMode: 0777
-      {{ end }}
+{{ end }}
