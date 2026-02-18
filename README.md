@@ -26,21 +26,37 @@ All charts live under the **`charts/`** directory. Each chart includes:
 
 ## Installing a chart
 
-Add the repo (if published) or install from the local clone:
+### From the Helm repository
+
+Add the repo and install a chart:
 
 ```bash
-# From repo root
+helm repo add openshift-helm https://rgordill.github.io/openshift-helm-from-templates/
+helm repo update
+
+helm install my-postgresql openshift-helm/postgresql
+helm install my-redis openshift-helm/redis
+helm install my-ipa openshift-helm/ipa-server
+```
+
+**Helm repository URL:** [https://rgordill.github.io/openshift-helm-from-templates/](https://rgordill.github.io/openshift-helm-from-templates/)
+
+### From a local clone
+
+Alternatively, install from the repository root:
+
+```bash
 helm install my-postgresql ./charts/postgresql
 helm install my-redis ./charts/redis
 helm install my-ipa ./charts/ipa-server
 ```
 
-Override values:
+### Override values
 
 ```bash
-helm install my-postgresql ./charts/postgresql -f my-values.yaml
+helm install my-postgresql openshift-helm/postgresql -f my-values.yaml
 # or
-helm install my-postgresql ./charts/postgresql --set postgresql.database=mydb
+helm install my-postgresql openshift-helm/postgresql --set postgresql.database=mydb
 ```
 
 ## Documentation and schema

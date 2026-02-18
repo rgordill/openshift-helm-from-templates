@@ -1,0 +1,8 @@
+apiVersion: helm.openshift.io/v1beta1
+kind: HelmChartRepository
+metadata:
+  name: openfhift-charts-from-templates
+spec:
+  name: OpenShift AlternativeCharts
+  connectionConfig:
+    url: https://rgordill.github.io/openshift-helm-from-templates/
