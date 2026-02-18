@@ -16,8 +16,9 @@ export PATH := $(shell go env GOPATH 2>/dev/null || echo $(HOME)/go)/bin:$(PATH)
 HELM_SCHEMA_GEN ?= helm
 # Set HELM_SCHEMA_GEN=npx to use: npx @socialgouv/helm-schema -f values.yaml
 
-# Discover chart directories (any dir with Chart.yaml, exclude .git)
-CHARTS := $(patsubst %/Chart.yaml,%,$(shell find . -maxdepth 2 -name 'Chart.yaml' -not -path './.git/*' | sort))
+# Chart search root and discovered chart directories
+CHARTS_DIR ?= charts
+CHARTS := $(patsubst %/Chart.yaml,%,$(shell find $(CHARTS_DIR) -name 'Chart.yaml' -not -path '*/.git/*' | sort))
 
 .PHONY: all schema docs help install-tools check-tools
 
@@ -48,7 +49,7 @@ schema: install-tools
 		done; \
 	elif command -v helm-schema >/dev/null 2>&1 && ! helm schema create --help >/dev/null 2>&1; then \
 		echo "Generating schema with helm-schema (Go binary)..."; \
-		helm-schema --chart-search-root=. || exit 1; \
+		helm-schema --chart-search-root=$(CHARTS_DIR) || exit 1; \
 	else \
 		for chart in $(CHARTS); do \
 			echo "Generating schema for $$chart..."; \
@@ -59,7 +60,7 @@ schema: install-tools
 
 # Generate README.md (values table) for all charts using helm-docs
 docs: install-tools
-	@helm-docs --chart-search-root=.
+	@helm-docs --chart-search-root=$(CHARTS_DIR)
 	@echo "Documentation generation complete."
 
 help:
@@ -70,6 +71,7 @@ help:
 	@echo "  docs          - Generate README.md with values table for each chart (helm-docs)"
 	@echo "  help          - Show this help"
 	@echo ""
+	@echo "Charts directory: $(CHARTS_DIR)"
 	@echo "Charts found: $(CHARTS)"
 	@echo ""
 	@echo "Schema generator: HELM_SCHEMA_GEN=$(HELM_SCHEMA_GEN)"
