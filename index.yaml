@@ -1,3 +1,57 @@
 apiVersion: v1
-entries: {}
-generated: "2025-01-01T00:00:00Z"
+entries:
+  ipa-server:
+  - annotations:
+      charts.openshift.io/name: ipa-server
+      charts.openshift.io/provider: Community
+      charts.openshift.io/providerType: Community
+    apiVersion: v2
+    appVersion: "1"
+    created: "2026-02-18T19:41:21.628594134Z"
+    description: A Helm chart for ipa-server on OpenShift (https://github.com/freeipa/freeipa-container)
+    digest: cb3f03b6c3eac795f96b7bb93f670d5d64bf9335d433391d903bc8905ae9776c
+    kubeVersion: '>=1.24.0'
+    name: ipa-server
+    sources:
+    - https://github.com/rgordill/openshift-helm-from-templates/charts
+    type: application
+    urls:
+    - https://github.com/rgordill/openshift-helm-from-templates/releases/download/ipa-server-0.1.0/ipa-server-0.1.0.tgz
+    version: 0.1.0
+  postgresql:
+  - annotations:
+      charts.openshift.io/name: postgresql
+      charts.openshift.io/provider: Community
+      charts.openshift.io/providerType: Community
+    apiVersion: v2
+    appVersion: "1"
+    created: "2026-02-18T19:41:21.775570973Z"
+    description: A Helm chart for postgresql (dev) on OpenShift
+    digest: e2ca95a7b14a9c584c4640d60b1ff1bf7e45c47a6e76063e613edaa112037300
+    kubeVersion: '>=1.24.0'
+    name: postgresql
+    sources:
+    - https://github.com/rgordill/openshift-helm-from-templates/charts
+    type: application
+    urls:
+    - https://github.com/rgordill/openshift-helm-from-templates/releases/download/postgresql-0.1.0/postgresql-0.1.0.tgz
+    version: 0.1.0
+  redis:
+  - annotations:
+      charts.openshift.io/name: redis
+      charts.openshift.io/provider: Community
+      charts.openshift.io/providerType: Community
+    apiVersion: v2
+    appVersion: "1"
+    created: "2026-02-18T19:41:21.898800004Z"
+    description: A Helm chart for redis (dev) on OpenShift
+    digest: 5509729d8876ea72164cf2dbac3c641836f820f9b619e963195d641f60e81d5c
+    kubeVersion: '>=1.24.0'
+    name: redis
+    sources:
+    - https://github.com/rgordill/openshift-helm-from-templates/charts
+    type: application
+    urls:
+    - https://github.com/rgordill/openshift-helm-from-templates/releases/download/redis-0.1.0/redis-0.1.0.tgz
+    version: 0.1.0
+generated: "2026-02-18T19:41:21.898813149Z"
