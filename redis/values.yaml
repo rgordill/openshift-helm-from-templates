@@ -1,6 +1,8 @@
+# @param {object} image -- Container image configuration
 image:
+  # @param {string} image.repository -- Image registry and repository
   repository: registry.redhat.io/rhel9/redis-7
-#  repository: quay.io/fedora/postgresql-15
+# # @param {string} [image.tag] -- Image tag
   tag: "latest"
 
 # fullnameOverride: redis
@@ -10,24 +12,24 @@ image:
 #   storageClass: ocs-storagecluster-ceph-rbd
 #   storageClass: ocs-storagecluster-ceph-non-resilient-rbd
 
+# @param {object} service -- Service configuration
 service:
+  # @param {number} service.port -- Redis port
   port: 6379
 
-resources: 
+# @param {object} resources -- Resource limits and requests
+resources:
   limits:
+    # @param {string} resources.limits.memory -- Memory limit
     memory: 512Mi
 
+# @param {object} redis -- Redis server configuration
 redis:
+  # @param {string} redis.password -- Redis password
   password: "redhat01"
 
+# @param {object} [affinity] -- Pod affinity/anti-affinity rules
 affinity: {}
-  # nodeAffinity:
-  #   requiredDuringSchedulingIgnoredDuringExecution:
-  #     nodeSelectorTerms:
-  #     - matchExpressions:
-  #       - key: kubernetes.io/hostname
-  #         operator: In
-  #         values:
-  #         - node1.example.com
 
+# @param {boolean} monitor -- Enable ServiceMonitor for Prometheus
 monitor: true

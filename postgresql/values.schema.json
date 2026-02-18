@@ -1,0 +1,188 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "properties": {
+    "affinity": {
+      "additionalProperties": false,
+      "required": [],
+      "title": "affinity",
+      "type": "object"
+    },
+    "global": {
+      "description": "Global values are values that can be accessed from any chart or subchart by exactly the same name.",
+      "required": [],
+      "title": "global",
+      "type": "object"
+    },
+    "image": {
+      "additionalProperties": false,
+      "properties": {
+        "repository": {
+          "default": "registry.redhat.io/rhel9/postgresql-15",
+          "title": "repository",
+          "type": "string"
+        },
+        "tag": {
+          "default": "latest",
+          "title": "tag",
+          "type": "string"
+        }
+      },
+      "required": [
+        "repository",
+        "tag"
+      ],
+      "title": "image",
+      "type": "object"
+    },
+    "monitor": {
+      "default": true,
+      "title": "monitor",
+      "type": "boolean"
+    },
+    "postgresql": {
+      "additionalProperties": false,
+      "properties": {
+        "adminPassword": {
+          "additionalProperties": false,
+          "required": [],
+          "title": "adminPassword",
+          "type": "object"
+        },
+        "database": {
+          "default": "sampledb",
+          "title": "database",
+          "type": "string"
+        },
+        "logDestination": {
+          "default": "/dev/stderr",
+          "title": "logDestination",
+          "type": "string"
+        },
+        "password": {
+          "additionalProperties": false,
+          "required": [],
+          "title": "password",
+          "type": "object"
+        },
+        "user": {
+          "additionalProperties": false,
+          "required": [],
+          "title": "user",
+          "type": "object"
+        }
+      },
+      "required": [
+        "database",
+        "user",
+        "password",
+        "adminPassword",
+        "logDestination"
+      ],
+      "title": "postgresql",
+      "type": "object"
+    },
+    "resources": {
+      "additionalProperties": false,
+      "properties": {
+        "limits": {
+          "additionalProperties": false,
+          "properties": {
+            "cpu": {
+              "additionalProperties": false,
+              "required": [],
+              "title": "cpu",
+              "type": "object"
+            },
+            "memory": {
+              "default": "512Mi",
+              "title": "memory",
+              "type": "string"
+            }
+          },
+          "required": [
+            "cpu",
+            "memory"
+          ],
+          "title": "limits",
+          "type": "object"
+        },
+        "requests": {
+          "additionalProperties": false,
+          "properties": {
+            "cpu": {
+              "additionalProperties": false,
+              "required": [],
+              "title": "cpu",
+              "type": "object"
+            },
+            "memory": {
+              "additionalProperties": false,
+              "required": [],
+              "title": "memory",
+              "type": "object"
+            }
+          },
+          "required": [
+            "cpu",
+            "memory"
+          ],
+          "title": "requests",
+          "type": "object"
+        }
+      },
+      "required": [
+        "requests",
+        "limits"
+      ],
+      "title": "resources",
+      "type": "object"
+    },
+    "service": {
+      "additionalProperties": false,
+      "properties": {
+        "port": {
+          "default": 5432,
+          "title": "port",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "port"
+      ],
+      "title": "service",
+      "type": "object"
+    },
+    "storage": {
+      "additionalProperties": false,
+      "properties": {
+        "size": {
+          "default": "1Gi",
+          "title": "size",
+          "type": "string"
+        },
+        "storageClass": {
+          "default": "ocs-storagecluster-ceph-rbd",
+          "title": "storageClass",
+          "type": "string"
+        }
+      },
+      "required": [
+        "size",
+        "storageClass"
+      ],
+      "title": "storage",
+      "type": "object"
+    }
+  },
+  "required": [
+    "image",
+    "storage",
+    "service",
+    "resources",
+    "postgresql",
+    "affinity",
+    "monitor"
+  ],
+  "type": "object"
+}

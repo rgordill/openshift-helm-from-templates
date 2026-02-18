@@ -1,0 +1,109 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "properties": {
+    "affinity": {
+      "additionalProperties": false,
+      "required": [],
+      "title": "affinity",
+      "type": "object"
+    },
+    "global": {
+      "description": "Global values are values that can be accessed from any chart or subchart by exactly the same name.",
+      "required": [],
+      "title": "global",
+      "type": "object"
+    },
+    "image": {
+      "additionalProperties": false,
+      "properties": {
+        "repository": {
+          "default": "registry.redhat.io/rhel9/redis-7",
+          "title": "repository",
+          "type": "string"
+        },
+        "tag": {
+          "default": "latest",
+          "description": "#",
+          "title": "tag",
+          "type": "string"
+        }
+      },
+      "required": [
+        "repository",
+        "tag"
+      ],
+      "title": "image",
+      "type": "object"
+    },
+    "monitor": {
+      "default": true,
+      "title": "monitor",
+      "type": "boolean"
+    },
+    "redis": {
+      "additionalProperties": false,
+      "properties": {
+        "password": {
+          "default": "redhat01",
+          "title": "password",
+          "type": "string"
+        }
+      },
+      "required": [
+        "password"
+      ],
+      "title": "redis",
+      "type": "object"
+    },
+    "resources": {
+      "additionalProperties": false,
+      "properties": {
+        "limits": {
+          "additionalProperties": false,
+          "properties": {
+            "memory": {
+              "default": "512Mi",
+              "title": "memory",
+              "type": "string"
+            }
+          },
+          "required": [
+            "memory"
+          ],
+          "title": "limits",
+          "type": "object"
+        }
+      },
+      "required": [
+        "limits"
+      ],
+      "title": "resources",
+      "type": "object"
+    },
+    "service": {
+      "additionalProperties": false,
+      "properties": {
+        "port": {
+          "default": 6379,
+          "title": "port",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "port"
+      ],
+      "title": "service",
+      "type": "object"
+    }
+  },
+  "required": [
+    "image",
+    "service",
+    "resources",
+    "redis",
+    "affinity",
+    "monitor"
+  ],
+  "type": "object"
+}
