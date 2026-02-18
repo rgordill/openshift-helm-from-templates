@@ -3,5 +3,14 @@ name: ipa-server
 description: A Helm chart for ipa-server on OpenShift (https://github.com/freeipa/freeipa-container)
 
 type: application
+kubeVersion: '>=1.24.0'
 version: 0.1.0
 appVersion: "1"
+
+annotations:
+  charts.openshift.io/name: ipa-server
+  charts.openshift.io/provider: Community
+  charts.openshift.io/providerType: Community
+
+sources:
+  - https://github.com/rgordill/openshift-helm-from-templates/charts

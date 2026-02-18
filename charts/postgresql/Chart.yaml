@@ -3,5 +3,14 @@ name: postgresql
 description: A Helm chart for postgresql (dev) on OpenShift
 
 type: application
+kubeVersion: '>=1.24.0'
 version: 0.1.0
 appVersion: "1"
+
+annotations:
+  charts.openshift.io/name: postgresql
+  charts.openshift.io/provider: Community
+  charts.openshift.io/providerType: Community
+
+sources:
+  - https://github.com/rgordill/openshift-helm-from-templates/charts

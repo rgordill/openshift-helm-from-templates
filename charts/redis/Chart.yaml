@@ -1,7 +1,16 @@
 apiVersion: v2
 name: redis
-description: A Helm chart for redis (dev)on OpenShift
+description: A Helm chart for redis (dev) on OpenShift
 
 type: application
+kubeVersion: '>=1.24.0'
 version: 0.1.0
 appVersion: "1"
+
+annotations:
+  charts.openshift.io/name: redis
+  charts.openshift.io/provider: Community
+  charts.openshift.io/providerType: Community
+
+sources:
+  - https://github.com/rgordill/openshift-helm-from-templates/charts

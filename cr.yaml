@@ -1,0 +1,5 @@
+# chart-releaser config (https://github.com/helm/chart-releaser)
+owner: rgordill
+git-repo: openshift-helm-from-templates
+pages_branch: gh-pages
+pages_index_path: index.yaml
