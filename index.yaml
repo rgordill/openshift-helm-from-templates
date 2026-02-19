@@ -6,8 +6,26 @@ entries:
       charts.openshift.io/provider: Community
       charts.openshift.io/providerType: Community
     apiVersion: v2
-    appVersion: '1'
-    created: '2026-02-19T12:47:32.117776079Z'
+    appVersion: "1"
+    created: "2026-02-19T12:58:51.315849525Z"
+    description: A Helm chart for FreeIPA server on OpenShift (https://github.com/freeipa/freeipa-container)
+    digest: 1a9050d875913722e6cb9c65e5bf4d48b914b087059fb7ac0258d66a440046fc
+    icon: https://avatars.githubusercontent.com/u/10979201
+    kubeVersion: '>=1.24.0'
+    name: ipa-server
+    sources:
+    - https://github.com/rgordill/openshift-helm-from-templates/charts
+    type: application
+    urls:
+    - https://github.com/rgordill/openshift-helm-from-templates/releases/download/ipa-server-0.2.0/ipa-server-0.2.0.tgz
+    version: 0.2.0
+  - annotations:
+      charts.openshift.io/name: FreeIPA
+      charts.openshift.io/provider: Community
+      charts.openshift.io/providerType: Community
+    apiVersion: v2
+    appVersion: "1"
+    created: "2026-02-19T12:47:32.117776079Z"
     description: A Helm chart for FreeIPA server on OpenShift (https://github.com/freeipa/freeipa-container)
     digest: 4c8968b4093ff3722f6e4ffb2ff787bbb52bcacae6ff3f81d58a8ab1af306520
     icon: https://avatars.githubusercontent.com/u/10979201
@@ -25,8 +43,26 @@ entries:
       charts.openshift.io/provider: Community
       charts.openshift.io/providerType: Community
     apiVersion: v2
-    appVersion: '1'
-    created: '2026-02-19T12:47:32.260496483Z'
+    appVersion: "1"
+    created: "2026-02-19T12:58:51.44920725Z"
+    description: A Helm chart for PostgreSQL database server for development on OpenShift
+    digest: 4c230b418072ba21ccb070756de05a4ad58b7b16fe6b5a055106dd66a96e087a
+    icon: https://www.postgresql.org/media/img/about/press/elephant.png
+    kubeVersion: '>=1.24.0'
+    name: postgresql
+    sources:
+    - https://github.com/rgordill/openshift-helm-from-templates/charts
+    type: application
+    urls:
+    - https://github.com/rgordill/openshift-helm-from-templates/releases/download/postgresql-0.2.0/postgresql-0.2.0.tgz
+    version: 0.2.0
+  - annotations:
+      charts.openshift.io/name: PostgreSQL
+      charts.openshift.io/provider: Community
+      charts.openshift.io/providerType: Community
+    apiVersion: v2
+    appVersion: "1"
+    created: "2026-02-19T12:47:32.260496483Z"
     description: A Helm chart for PostgreSQL database server for development on OpenShift
     digest: 30cde63f5fc25326beeea49641659deb501539a73ecaae79ca9220ba039a799c
     icon: https://www.postgresql.org/media/img/about/press/elephant.png
@@ -44,8 +80,27 @@ entries:
       charts.openshift.io/provider: Community
       charts.openshift.io/providerType: Community
     apiVersion: v2
-    appVersion: '1'
-    created: '2026-02-19T12:47:32.455046354Z'
+    appVersion: "1"
+    created: "2026-02-19T12:58:51.580659502Z"
+    description: A Helm chart for Redis in-memory data structure store for development
+      on OpenShift
+    digest: 799ee849126523ef1d07fcd7aa0760188524463cd9a260fb7423e2c146dda8b8
+    icon: https://upload.wikimedia.org/wikipedia/commons/e/ee/Redis_logo.svg
+    kubeVersion: '>=1.24.0'
+    name: redis
+    sources:
+    - https://github.com/rgordill/openshift-helm-from-templates/charts
+    type: application
+    urls:
+    - https://github.com/rgordill/openshift-helm-from-templates/releases/download/redis-0.2.0/redis-0.2.0.tgz
+    version: 0.2.0
+  - annotations:
+      charts.openshift.io/name: Redis
+      charts.openshift.io/provider: Community
+      charts.openshift.io/providerType: Community
+    apiVersion: v2
+    appVersion: "1"
+    created: "2026-02-19T12:47:32.455046354Z"
     description: A Helm chart for Redis in-memory data structure store for development
       on OpenShift
     digest: 974ce1d04b1acaa0c1d2d77351b02312b6804a092abb3f6820f6ce38491d8da3
@@ -58,4 +113,4 @@ entries:
     urls:
     - https://github.com/rgordill/openshift-helm-from-templates/releases/download/redis-0.1.4/redis-0.1.4.tgz
     version: 0.1.4
-generated: '2026-02-19T12:47:32.455104362Z'
+generated: "2026-02-19T12:58:51.580679361Z"
