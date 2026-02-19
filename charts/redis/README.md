@@ -1,18 +1,30 @@
 # redis
 
-![Version: 0.1.0](https://img.shields.io/badge/Version-0.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1](https://img.shields.io/badge/AppVersion-1-informational?style=flat-square)
+![Version: 0.1.2](https://img.shields.io/badge/Version-0.1.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1](https://img.shields.io/badge/AppVersion-1-informational?style=flat-square)
 
-A Helm chart for redis (dev)on OpenShift
+A Helm chart for Redis in-memory data structure store for development on OpenShift
+
+## Source Code
+
+* <https://github.com/rgordill/openshift-helm-from-templates/charts>
+
+## Requirements
+
+Kubernetes: `>=1.24.0`
 
 ## Values
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| affinity | object | `{}` |  |
-| image.repository | string | `"registry.redhat.io/rhel9/redis-7"` |  |
-| image.tag | string | `"latest"` |  |
-| monitor | bool | `true` |  |
-| redis.password | string | `"redhat01"` |  |
-| resources.limits.memory | string | `"512Mi"` |  |
-| service.port | int | `6379` |  |
+| affinity | object | `{}` | Pod affinity/anti-affinity rules |
+| image | object | `{"repository":"registry.redhat.io/rhel9/redis-7","tag":"latest"}` | Container image configuration |
+| image.repository | string | `"registry.redhat.io/rhel9/redis-7"` | Image registry and repository |
+| image.tag | string | `"latest"` | Image tag |
+| monitor | bool | `true` | Enable ServiceMonitor for Prometheus |
+| redis | object | `{"password":"redhat01"}` | Redis server configuration |
+| redis.password | string | `"redhat01"` | Redis password |
+| resources | object | `{"limits":{"memory":"512Mi"}}` | Resource limits and requests |
+| resources.limits.memory | string | `"512Mi"` | Memory limit |
+| service | object | `{"port":6379}` | Service configuration |
+| service.port | int | `6379` | Redis port |
 
