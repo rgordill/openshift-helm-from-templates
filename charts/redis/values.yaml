@@ -1,7 +1,16 @@
+# @schema
+# type: object
+# @schema
 # -- Container image configuration
 image:
+  # @schema
+  # type: string
+  # @schema
   # -- Image registry and repository
   repository: registry.redhat.io/rhel9/redis-7
+  # @schema
+  # type: string
+  # @schema
   # -- Image tag
   tag: "latest"
 
@@ -12,24 +21,49 @@ image:
 #   storageClass: ocs-storagecluster-ceph-rbd
 #   storageClass: ocs-storagecluster-ceph-non-resilient-rbd
 
+# @schema
+# type: object
+# @schema
 # -- Service configuration
 service:
+  # @schema
+  # type: integer
+  # @schema
   # -- Redis port
   port: 6379
 
+# @schema
+# type: object
+# @schema
 # -- Resource limits and requests
 resources:
   limits:
+    # @schema
+    # type: string
+    # @schema
     # -- Memory limit
     memory: 512Mi
 
+# @schema
+# type: object
+# @schema
 # -- Redis server configuration
 redis:
+  # @schema
+  # type: string
+  # @schema
   # -- Redis password
   password: "redhat01"
 
+# @schema
+# type: object
+# additionalProperties: true
+# @schema
 # -- Pod affinity/anti-affinity rules
 affinity: {}
 
+# @schema
+# type: boolean
+# @schema
 # -- Enable ServiceMonitor for Prometheus
 monitor: true

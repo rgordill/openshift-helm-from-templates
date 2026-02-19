@@ -3,10 +3,11 @@
   "additionalProperties": false,
   "properties": {
     "affinity": {
-      "additionalProperties": false,
+      "additionalProperties": true,
       "description": "Pod affinity/anti-affinity rules",
       "required": [],
-      "title": "affinity"
+      "title": "affinity",
+      "type": "object"
     },
     "global": {
       "description": "Global values are values that can be accessed from any chart or subchart by exactly the same name.",
@@ -21,24 +22,25 @@
         "repository": {
           "default": "registry.redhat.io/rhel9/redis-7",
           "description": "Image registry and repository",
-          "required": [],
-          "title": "repository"
+          "title": "repository",
+          "type": "string"
         },
         "tag": {
           "default": "latest",
           "description": "Image tag",
-          "required": [],
-          "title": "tag"
+          "title": "tag",
+          "type": "string"
         }
       },
       "required": [],
-      "title": "image"
+      "title": "image",
+      "type": "object"
     },
     "monitor": {
-      "default": "true",
+      "default": true,
       "description": "Enable ServiceMonitor for Prometheus",
-      "required": [],
-      "title": "monitor"
+      "title": "monitor",
+      "type": "boolean"
     },
     "redis": {
       "additionalProperties": false,
@@ -47,12 +49,13 @@
         "password": {
           "default": "redhat01",
           "description": "Redis password",
-          "required": [],
-          "title": "password"
+          "title": "password",
+          "type": "string"
         }
       },
       "required": [],
-      "title": "redis"
+      "title": "redis",
+      "type": "object"
     },
     "resources": {
       "additionalProperties": false,
@@ -64,8 +67,8 @@
             "memory": {
               "default": "512Mi",
               "description": "Memory limit",
-              "required": [],
-              "title": "memory"
+              "title": "memory",
+              "type": "string"
             }
           },
           "required": [],
@@ -76,21 +79,23 @@
       "required": [
         "limits"
       ],
-      "title": "resources"
+      "title": "resources",
+      "type": "object"
     },
     "service": {
       "additionalProperties": false,
       "description": "Service configuration",
       "properties": {
         "port": {
-          "default": "6379",
+          "default": 6379,
           "description": "Redis port",
-          "required": [],
-          "title": "port"
+          "title": "port",
+          "type": "integer"
         }
       },
       "required": [],
-      "title": "service"
+      "title": "service",
+      "type": "object"
     }
   },
   "required": [],

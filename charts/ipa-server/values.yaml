@@ -1,54 +1,112 @@
+# @schema
+# type: object
+# @schema
 # -- Container image configuration
 image:
+  # @schema
+  # type: string
+  # @schema
   # -- Image registry and repository
   repository: quay.io/freeipa/freeipa-server
+  # @schema
+  # type: string
+  # @schema
   # -- Image tag
   tag: centos-9-stream
 
 # fullnameOverride: ipaserver
 
+# @schema
+# type: boolean
+# @schema
 # -- Enable OpenShift-specific configuration
 openshift: true
 
+# @schema
+# type: object
+# @schema
 # -- Persistent volume configuration
 volume:
+  # @schema
+  # type: string
+  # @schema
   # -- Size of the persistent volume (minimum 2Gi for slapd)
   size: 5Gi
 
+# @schema
+# type: object
+# @schema
 # -- Resource limits and requests
 resources:
   limits:
+    # @schema
+    # type: string
+    # @schema
     # -- Memory limit
     memory: 512Mi
 
+# @schema
+# type: string
+# @schema
 # -- Service account name for the IPA server pods
 serviceAccount: ipa-server
 
+# @schema
+# type: object
+# @schema
 # -- FreeIPA server installation and run options
 ipaServer:
+  # @schema
+  # type: string
+  # @schema
   # -- Options passed to ipa-server-install (e.g. -U -r EXAMPLE.TEST --setup-dns)
   installOpts: -U -r EXAMPLE.TEST --setup-dns --no-forwarders --no-ntp
+  # @schema
+  # type: string
+  # @schema
   # -- Command to run in the container
   command: ipa-server-install
+  # @schema
+  # type: string
+  # @schema
   # -- Directory Manager / admin password (at least 8 characters)
   adminPassword: admin2026
 
+# @schema
+# type: object
+# @schema
 # -- Ingress configuration
 ingress:
+  # @schema
+  # type: boolean
+  # @schema
   # -- Enable ingress for the IPA server
   enabled: true
 #   annotations:
 #     kubernetes.io/ingress.class: nginx
 #     kubernetes.io/tls-acme: "true"
 
+  # @schema
+  # type: string
+  # @schema
   # -- Ingress class name (e.g. openshift-default)
   className: openshift-default
+  # @schema
+  # type: string
+  # @schema
   # -- Hostname for the ingress (should match installOpts domain)
   hostname: ipa-server.example.test
+  # @schema
+  # type: boolean
+  # @schema
   # -- Use TLS passthrough for LDAP/HTTPS
   passthrough: true
 #  tls: not implemented
 
+# @schema
+# type: object
+# additionalProperties: true
+# @schema
 # -- Pod affinity/anti-affinity rules
 affinity: {}
   # nodeAffinity:

@@ -59,7 +59,8 @@ jobs:
             yaml.dump(data, f, default_flow_style=False, sort_keys=False, allow_unicode=True)
           PY
           git show origin/main:README.md > README.md
-          echo '<!DOCTYPE html><html><head><meta http-equiv="refresh" content="0;url=README.md"></head><body>Redirecting to <a href="README.md">README</a>...</body></html>' > index.html
-          git add index.yaml README.md index.html
-          git diff --staged --quiet || git commit -m "chore: index trim and add README to gh-pages"
+          (echo '---'; echo 'title: OpenShift Helm Charts'; echo '---'; cat README.md) > index.md
+          rm -f .nojekyll
+          git add index.yaml README.md index.md
+          git diff --staged --quiet || git commit -m "chore: index trim and add README for Jekyll (gh-pages)"
           git push origin gh-pages

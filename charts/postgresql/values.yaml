@@ -1,52 +1,116 @@
+# @schema
+# type: object
+# @schema
 # -- Container image configuration
 image:
+  # @schema
+  # type: string
+  # @schema
   # -- Image registry and repository
   repository: registry.redhat.io/rhel9/postgresql-15
+  # @schema
+  # type: string
+  # @schema
   # -- Image tag
   tag: "latest"
 
 # fullnameOverride: postgresql
 
+# @schema
+# type: object
+# @schema
 # -- Persistent storage configuration
 storage:
+  # @schema
+  # type: string
+  # @schema
   # -- Size of the persistent volume
   size: 1Gi
+  # @schema
+  # type: string
+  # @schema
   # -- StorageClass for the persistent volume
   storageClass: ocs-storagecluster-ceph-rbd
 
+# @schema
+# type: object
+# @schema
 # -- Service configuration
 service:
+  # @schema
+  # type: integer
+  # @schema
   # -- PostgreSQL port
   port: 5432
 
+# @schema
+# type: object
+# @schema
 # -- Resource limits and requests
 resources:
   requests:
+    # @schema
+    # type: string
+    # @schema
     # -- CPU request
     cpu: "0.1"
+    # @schema
+    # type: string
+    # @schema
     # -- Memory request
     memory: 256Mi
   limits:
+    # @schema
+    # type: string
+    # @schema
     # -- CPU limit
     cpu: "0.5"
+    # @schema
+    # type: string
+    # @schema
     # -- Memory limit
     memory: 512Mi
 
+# @schema
+# type: object
+# @schema
 # -- PostgreSQL server configuration
 postgresql:
+  # @schema
+  # type: string
+  # @schema
   # -- Database name to create
   database: sampledb
+  # @schema
+  # type: string
+  # @schema
   # -- Custom user credentials (overridden at deploy)
   user: user
+  # @schema
+  # type: string
+  # @schema
   # -- Custom password (overridden at deploy)
   password: password
+  # @schema
+  # type: string
+  # @schema
   # -- Admin password (overridden at deploy)
   adminPassword: adminpassword
+  # # @schema
+  # # type: string
+  # # @schema
   # # -- Log destination (e.g. /dev/stderr)
   # logDestination: /dev/stderr
 
+# @schema
+# type: object
+# additionalProperties: true
+# @schema
 # -- Pod affinity/anti-affinity rules
 affinity: {}
 
+# @schema
+# type: boolean
+# @schema
 # -- Enable ServiceMonitor for Prometheus
 monitor: true
