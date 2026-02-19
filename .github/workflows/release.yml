@@ -40,3 +40,24 @@ jobs:
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           CR_PAGES_BRANCH: gh-pages
+
+      - name: Trim index to latest version per chart
+        run: |
+          git fetch origin gh-pages
+          git checkout gh-pages
+          pip install --quiet pyyaml
+          python3 << 'PY'
+          import yaml
+          with open('index.yaml') as f:
+            data = yaml.safe_load(f)
+          entries = data.get('entries') or {}
+          for chart in entries:
+            versions = entries[chart]
+            if isinstance(versions, list) and len(versions) > 1:
+              entries[chart] = [versions[0]]
+          with open('index.yaml', 'w') as f:
+            yaml.dump(data, f, default_flow_style=False, sort_keys=False, allow_unicode=True)
+          PY
+          git add index.yaml
+          git diff --staged --quiet || git commit -m "chore: keep only latest version per chart in index"
+          git push origin gh-pages
