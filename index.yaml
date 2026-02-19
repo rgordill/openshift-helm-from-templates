@@ -21,6 +21,24 @@ entries:
     version: 0.1.2
   ipa-server:
   - annotations:
+      charts.openshift.io/name: FreeIPA
+      charts.openshift.io/provider: Community
+      charts.openshift.io/providerType: Community
+    apiVersion: v2
+    appVersion: "1"
+    created: "2026-02-19T10:01:05.146802304Z"
+    description: A Helm chart for FreeIPA server on OpenShift (https://github.com/freeipa/freeipa-container)
+    digest: 71d78297b0703b273e8ba87bcd28ef1fe2d99a3ed23df2505c6e577e9e4ffd78
+    icon: https://avatars.githubusercontent.com/u/10979201
+    kubeVersion: '>=1.24.0'
+    name: ipa-server
+    sources:
+    - https://github.com/rgordill/openshift-helm-from-templates/charts
+    type: application
+    urls:
+    - https://github.com/rgordill/openshift-helm-from-templates/releases/download/ipa-server-0.1.2/ipa-server-0.1.2.tgz
+    version: 0.1.2
+  - annotations:
       charts.openshift.io/name: ipa-server
       charts.openshift.io/provider: Community
       charts.openshift.io/providerType: Community
@@ -165,4 +183,4 @@ entries:
     urls:
     - https://github.com/rgordill/openshift-helm-from-templates/releases/download/redis-0.1.0/redis-0.1.0.tgz
     version: 0.1.0
-generated: "2026-02-19T09:45:25.831620371Z"
+generated: "2026-02-19T10:01:05.146824781Z"
