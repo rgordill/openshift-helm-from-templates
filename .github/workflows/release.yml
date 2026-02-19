@@ -22,14 +22,9 @@ jobs:
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
 
-      - name: Update chart READMEs with helm-docs
+      - name: Generate chart READMEs for packaging
         run: |
           docker run --rm -v "$PWD:/helm-docs" -w /helm-docs jnorwood/helm-docs:latest --chart-search-root=charts
-          if ! git diff --quiet -- charts/; then
-            git add charts/*/README.md
-            git commit -m "chore: update chart READMEs (helm-docs)"
-            git push origin HEAD:${{ github.ref_name }}
-          fi
 
       - name: Install Helm
         uses: azure/setup-helm@v4
