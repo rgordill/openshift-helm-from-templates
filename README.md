@@ -78,6 +78,8 @@ From the repository root:
 | `make docs` | Generate `README.md` for each chart in `charts/` |
 | `make help` | List targets and discovered charts |
 
+Run `make docs` (and `make schema` if needed) before committing when you change `values.yaml` or `Chart.yaml` so chart READMEs and schemas stay in sync.
+
 Tools are installed under `$(go env GOPATH)/bin` when not present. To use the npm-based schema generator instead:
 
 ```bash
