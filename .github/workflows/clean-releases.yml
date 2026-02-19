@@ -1,0 +1,57 @@
+# Run manually to delete old chart releases (e.g. duplicate FreeIPA-*) and refresh index.yaml.
+name: Clean old chart releases
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag_pattern:
+        description: 'Tag pattern to delete (e.g. FreeIPA-* for all FreeIPA versions)'
+        required: true
+        default: 'FreeIPA-*'
+
+jobs:
+  clean:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete releases matching pattern
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          PATTERN: ${{ inputs.tag_pattern }}
+        run: |
+          set -e
+          echo "Deleting releases matching tag pattern: $PATTERN"
+          gh release list --repo "$REPO" --limit 500 | awk '{print $1}' | while read -r tag; do
+            if [[ "$tag" == $PATTERN ]]; then
+              echo "  Deleting release and tag: $tag"
+              gh release delete "$tag" --repo "$REPO" --yes
+            fi
+          done
+          echo "Done."
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+
+      - name: Install Helm
+        uses: azure/setup-helm@v4
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Rebuild index (chart-releaser)
+        uses: helm/chart-releaser-action@v1.7.0
+        with:
+          skip_existing: true
+          charts_dir: charts
+          config: cr.yaml
+        env:
+          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          CR_PAGES_BRANCH: gh-pages

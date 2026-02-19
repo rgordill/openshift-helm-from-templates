@@ -92,6 +92,10 @@ Charts are discovered under the `charts/` directory. To use another directory:
 make CHARTS_DIR=my-charts
 ```
 
+### Removing old versions from the Helm index
+
+The index on gh-pages is built from **GitHub Releases**. To remove old chart versions from the index (e.g. duplicate entries after a chart rename), run the **Clean old chart releases** workflow: **Actions → Clean old chart releases → Run workflow**. Use the default pattern `FreeIPA-*` to delete all releases with that tag and refresh the index, or set another tag pattern. The workflow deletes the matching releases and then runs chart-releaser to rebuild `index.yaml` on gh-pages.
+
 ## Repository structure
 
 ```
