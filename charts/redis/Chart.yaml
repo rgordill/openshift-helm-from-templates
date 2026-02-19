@@ -4,7 +4,7 @@ description: A Helm chart for Redis in-memory data structure store for developme
 
 type: application
 kubeVersion: '>=1.24.0'
-version: 0.1.1
+version: 0.1.2
 appVersion: "1"
 
 annotations:

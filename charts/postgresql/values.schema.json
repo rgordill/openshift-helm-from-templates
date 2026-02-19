@@ -4,9 +4,9 @@
   "properties": {
     "affinity": {
       "additionalProperties": false,
+      "description": "Pod affinity/anti-affinity rules",
       "required": [],
-      "title": "affinity",
-      "type": "object"
+      "title": "affinity"
     },
     "global": {
       "description": "Global values are values that can be accessed from any chart or subchart by exactly the same name.",
@@ -16,94 +16,83 @@
     },
     "image": {
       "additionalProperties": false,
+      "description": "Container image configuration",
       "properties": {
         "repository": {
           "default": "registry.redhat.io/rhel9/postgresql-15",
-          "title": "repository",
-          "type": "string"
+          "description": "Image registry and repository",
+          "required": [],
+          "title": "repository"
         },
         "tag": {
           "default": "latest",
-          "title": "tag",
-          "type": "string"
+          "description": "Image tag",
+          "required": [],
+          "title": "tag"
         }
       },
-      "required": [
-        "repository",
-        "tag"
-      ],
-      "title": "image",
-      "type": "object"
+      "required": [],
+      "title": "image"
     },
     "monitor": {
-      "default": true,
-      "title": "monitor",
-      "type": "boolean"
+      "default": "true",
+      "description": "Enable ServiceMonitor for Prometheus",
+      "required": [],
+      "title": "monitor"
     },
     "postgresql": {
       "additionalProperties": false,
+      "description": "PostgreSQL server configuration",
       "properties": {
         "adminPassword": {
-          "additionalProperties": false,
+          "default": "adminpassword",
+          "description": "Admin password (overridden at deploy)",
           "required": [],
-          "title": "adminPassword",
-          "type": "object"
+          "title": "adminPassword"
         },
         "database": {
           "default": "sampledb",
-          "title": "database",
-          "type": "string"
-        },
-        "logDestination": {
-          "default": "/dev/stderr",
-          "title": "logDestination",
-          "type": "string"
+          "description": "Database name to create",
+          "required": [],
+          "title": "database"
         },
         "password": {
-          "additionalProperties": false,
+          "default": "password",
+          "description": "Custom password (overridden at deploy)",
           "required": [],
-          "title": "password",
-          "type": "object"
+          "title": "password"
         },
         "user": {
-          "additionalProperties": false,
+          "default": "user",
+          "description": "Custom user credentials (overridden at deploy)",
           "required": [],
-          "title": "user",
-          "type": "object"
+          "title": "user"
         }
       },
-      "required": [
-        "database",
-        "user",
-        "password",
-        "adminPassword",
-        "logDestination"
-      ],
-      "title": "postgresql",
-      "type": "object"
+      "required": [],
+      "title": "postgresql"
     },
     "resources": {
       "additionalProperties": false,
+      "description": "Resource limits and requests",
       "properties": {
         "limits": {
           "additionalProperties": false,
           "properties": {
             "cpu": {
-              "additionalProperties": false,
+              "default": "0.5",
+              "description": "CPU limit",
               "required": [],
-              "title": "cpu",
-              "type": "object"
+              "title": "cpu"
             },
             "memory": {
               "default": "512Mi",
-              "title": "memory",
-              "type": "string"
+              "description": "Memory limit",
+              "required": [],
+              "title": "memory"
             }
           },
-          "required": [
-            "cpu",
-            "memory"
-          ],
+          "required": [],
           "title": "limits",
           "type": "object"
         },
@@ -111,22 +100,19 @@
           "additionalProperties": false,
           "properties": {
             "cpu": {
-              "additionalProperties": false,
+              "default": "0.1",
+              "description": "CPU request",
               "required": [],
-              "title": "cpu",
-              "type": "object"
+              "title": "cpu"
             },
             "memory": {
-              "additionalProperties": false,
+              "default": "256Mi",
+              "description": "Memory request",
               "required": [],
-              "title": "memory",
-              "type": "object"
+              "title": "memory"
             }
           },
-          "required": [
-            "cpu",
-            "memory"
-          ],
+          "required": [],
           "title": "requests",
           "type": "object"
         }
@@ -135,54 +121,43 @@
         "requests",
         "limits"
       ],
-      "title": "resources",
-      "type": "object"
+      "title": "resources"
     },
     "service": {
       "additionalProperties": false,
+      "description": "Service configuration",
       "properties": {
         "port": {
-          "default": 5432,
-          "title": "port",
-          "type": "integer"
+          "default": "5432",
+          "description": "PostgreSQL port",
+          "required": [],
+          "title": "port"
         }
       },
-      "required": [
-        "port"
-      ],
-      "title": "service",
-      "type": "object"
+      "required": [],
+      "title": "service"
     },
     "storage": {
       "additionalProperties": false,
+      "description": "Persistent storage configuration",
       "properties": {
         "size": {
           "default": "1Gi",
-          "title": "size",
-          "type": "string"
+          "description": "Size of the persistent volume",
+          "required": [],
+          "title": "size"
         },
         "storageClass": {
           "default": "ocs-storagecluster-ceph-rbd",
-          "title": "storageClass",
-          "type": "string"
+          "description": "StorageClass for the persistent volume",
+          "required": [],
+          "title": "storageClass"
         }
       },
-      "required": [
-        "size",
-        "storageClass"
-      ],
-      "title": "storage",
-      "type": "object"
+      "required": [],
+      "title": "storage"
     }
   },
-  "required": [
-    "image",
-    "storage",
-    "service",
-    "resources",
-    "postgresql",
-    "affinity",
-    "monitor"
-  ],
+  "required": [],
   "type": "object"
 }

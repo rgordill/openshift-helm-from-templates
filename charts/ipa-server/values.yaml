@@ -1,55 +1,55 @@
-# @param {object} image -- Container image configuration
+# -- Container image configuration
 image:
-  # @param {string} image.repository -- Image registry and repository
+  # -- Image registry and repository
   repository: quay.io/freeipa/freeipa-server
-  # @param {string} image.tag -- Image tag
+  # -- Image tag
   tag: centos-9-stream
 
 # fullnameOverride: ipaserver
 
-# @param {boolean} openshift -- Enable OpenShift-specific configuration
+# -- Enable OpenShift-specific configuration
 openshift: true
 
-# @param {object} volume -- Persistent volume configuration
+# -- Persistent volume configuration
 volume:
-  # @param {string} volume.size -- Size of the persistent volume (minimum 2Gi for slapd)
+  # -- Size of the persistent volume (minimum 2Gi for slapd)
   size: 5Gi
 
-# @param {object} resources -- Resource limits and requests
+# -- Resource limits and requests
 resources:
   limits:
-    # @param {string} resources.limits.memory -- Memory limit
+    # -- Memory limit
     memory: 512Mi
 
-# @param {string} serviceAccount -- Service account name for the IPA server pods
+# -- Service account name for the IPA server pods
 serviceAccount: ipa-server
 
-# @param {object} ipaServer -- FreeIPA server installation and run options
+# -- FreeIPA server installation and run options
 ipaServer:
-  # @param {string} ipaServer.installOpts -- Options passed to ipa-server-install (e.g. -U -r EXAMPLE.TEST --setup-dns)
+  # -- Options passed to ipa-server-install (e.g. -U -r EXAMPLE.TEST --setup-dns)
   installOpts: -U -r EXAMPLE.TEST --setup-dns --no-forwarders --no-ntp
-  # @param {string} ipaServer.command -- Command to run in the container
+  # -- Command to run in the container
   command: ipa-server-install
-  # @param {string} ipaServer.adminPassword -- Directory Manager / admin password (at least 8 characters)
-  adminPassword: admin2023
+  # -- Directory Manager / admin password (at least 8 characters)
+  adminPassword: admin2026
 
-# @param {object} ingress -- Ingress configuration
+# -- Ingress configuration
 ingress:
-  # @param {boolean} ingress.enabled -- Enable ingress for the IPA server
+  # -- Enable ingress for the IPA server
   enabled: true
 #   annotations:
 #     kubernetes.io/ingress.class: nginx
 #     kubernetes.io/tls-acme: "true"
 
-  # @param {string} ingress.className -- Ingress class name (e.g. openshift-default)
+  # -- Ingress class name (e.g. openshift-default)
   className: openshift-default
-  # @param {string} ingress.hostname -- Hostname for the ingress (should match installOpts domain)
+  # -- Hostname for the ingress (should match installOpts domain)
   hostname: ipa-server.example.test
-  # @param {boolean} ingress.passthrough -- Use TLS passthrough for LDAP/HTTPS
+  # -- Use TLS passthrough for LDAP/HTTPS
   passthrough: true
 #  tls: not implemented
 
-# @param {object} [affinity] -- Pod affinity/anti-affinity rules
+# -- Pod affinity/anti-affinity rules
 affinity: {}
   # nodeAffinity:
   #   requiredDuringSchedulingIgnoredDuringExecution:

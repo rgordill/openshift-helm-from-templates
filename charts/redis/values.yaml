@@ -1,8 +1,8 @@
-# @param {object} image -- Container image configuration
+# -- Container image configuration
 image:
-  # @param {string} image.repository -- Image registry and repository
+  # -- Image registry and repository
   repository: registry.redhat.io/rhel9/redis-7
-# # @param {string} [image.tag] -- Image tag
+  # -- Image tag
   tag: "latest"
 
 # fullnameOverride: redis
@@ -12,24 +12,24 @@ image:
 #   storageClass: ocs-storagecluster-ceph-rbd
 #   storageClass: ocs-storagecluster-ceph-non-resilient-rbd
 
-# @param {object} service -- Service configuration
+# -- Service configuration
 service:
-  # @param {number} service.port -- Redis port
+  # -- Redis port
   port: 6379
 
-# @param {object} resources -- Resource limits and requests
+# -- Resource limits and requests
 resources:
   limits:
-    # @param {string} resources.limits.memory -- Memory limit
+    # -- Memory limit
     memory: 512Mi
 
-# @param {object} redis -- Redis server configuration
+# -- Redis server configuration
 redis:
-  # @param {string} redis.password -- Redis password
+  # -- Redis password
   password: "redhat01"
 
-# @param {object} [affinity] -- Pod affinity/anti-affinity rules
+# -- Pod affinity/anti-affinity rules
 affinity: {}
 
-# @param {boolean} monitor -- Enable ServiceMonitor for Prometheus
+# -- Enable ServiceMonitor for Prometheus
 monitor: true

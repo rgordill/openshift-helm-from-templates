@@ -49,7 +49,7 @@ schema: install-tools
 		done; \
 	elif command -v helm-schema >/dev/null 2>&1 && ! helm schema create --help >/dev/null 2>&1; then \
 		echo "Generating schema with helm-schema (Go binary)..."; \
-		helm-schema --chart-search-root=$(CHARTS_DIR) || exit 1; \
+		helm-schema --chart-search-root=$(CHARTS_DIR) --helm-docs-compatibility-mode || exit 1; \
 	else \
 		for chart in $(CHARTS); do \
 			echo "Generating schema for $$chart..."; \

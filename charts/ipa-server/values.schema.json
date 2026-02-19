@@ -4,9 +4,9 @@
   "properties": {
     "affinity": {
       "additionalProperties": false,
+      "description": "Pod affinity/anti-affinity rules",
       "required": [],
-      "title": "affinity",
-      "type": "object"
+      "title": "affinity"
     },
     "global": {
       "description": "Global values are values that can be accessed from any chart or subchart by exactly the same name.",
@@ -16,105 +16,103 @@
     },
     "image": {
       "additionalProperties": false,
+      "description": "Container image configuration",
       "properties": {
         "repository": {
           "default": "quay.io/freeipa/freeipa-server",
-          "title": "repository",
-          "type": "string"
+          "description": "Image registry and repository",
+          "required": [],
+          "title": "repository"
         },
         "tag": {
           "default": "centos-9-stream",
-          "title": "tag",
-          "type": "string"
+          "description": "Image tag",
+          "required": [],
+          "title": "tag"
         }
       },
-      "required": [
-        "repository",
-        "tag"
-      ],
-      "title": "image",
-      "type": "object"
+      "required": [],
+      "title": "image"
     },
     "ingress": {
       "additionalProperties": false,
+      "description": "Ingress configuration",
       "properties": {
         "className": {
           "default": "openshift-default",
-          "title": "className",
-          "type": "string"
+          "description": "Ingress class name (e.g. openshift-default)",
+          "required": [],
+          "title": "className"
         },
         "enabled": {
-          "default": true,
-          "title": "enabled",
-          "type": "boolean"
+          "default": "true",
+          "description": "Enable ingress for the IPA server",
+          "required": [],
+          "title": "enabled"
         },
         "hostname": {
           "default": "ipa-server.example.test",
-          "title": "hostname",
-          "type": "string"
+          "description": "Hostname for the ingress (should match installOpts domain)",
+          "required": [],
+          "title": "hostname"
         },
         "passthrough": {
-          "default": true,
-          "title": "passthrough",
-          "type": "boolean"
+          "default": "true",
+          "description": "Use TLS passthrough for LDAP/HTTPS",
+          "required": [],
+          "title": "passthrough"
         }
       },
-      "required": [
-        "enabled",
-        "className",
-        "hostname",
-        "passthrough"
-      ],
-      "title": "ingress",
-      "type": "object"
+      "required": [],
+      "title": "ingress"
     },
     "ipaServer": {
       "additionalProperties": false,
+      "description": "FreeIPA server installation and run options",
       "properties": {
         "adminPassword": {
           "default": "admin2023",
-          "title": "adminPassword",
-          "type": "string"
+          "description": "Directory Manager / admin password (at least 8 characters)",
+          "required": [],
+          "title": "adminPassword"
         },
         "command": {
           "default": "ipa-server-install",
-          "title": "command",
-          "type": "string"
+          "description": "Command to run in the container",
+          "required": [],
+          "title": "command"
         },
         "installOpts": {
           "default": "-U -r EXAMPLE.TEST --setup-dns --no-forwarders --no-ntp",
-          "title": "installOpts",
-          "type": "string"
+          "description": "setup-dns)",
+          "required": [],
+          "title": "installOpts"
         }
       },
-      "required": [
-        "installOpts",
-        "command",
-        "adminPassword"
-      ],
-      "title": "ipaServer",
-      "type": "object"
+      "required": [],
+      "title": "ipaServer"
     },
     "openshift": {
-      "default": true,
-      "title": "openshift",
-      "type": "boolean"
+      "default": "true",
+      "description": "Enable OpenShift-specific configuration",
+      "required": [],
+      "title": "openshift"
     },
     "resources": {
       "additionalProperties": false,
+      "description": "Resource limits and requests",
       "properties": {
         "limits": {
           "additionalProperties": false,
           "properties": {
             "memory": {
               "default": "512Mi",
-              "title": "memory",
-              "type": "string"
+              "description": "Memory limit",
+              "required": [],
+              "title": "memory"
             }
           },
-          "required": [
-            "memory"
-          ],
+          "required": [],
           "title": "limits",
           "type": "object"
         }
@@ -122,39 +120,29 @@
       "required": [
         "limits"
       ],
-      "title": "resources",
-      "type": "object"
+      "title": "resources"
     },
     "serviceAccount": {
       "default": "ipa-server",
-      "title": "serviceAccount",
-      "type": "string"
+      "description": "Service account name for the IPA server pods",
+      "required": [],
+      "title": "serviceAccount"
     },
     "volume": {
       "additionalProperties": false,
+      "description": "Persistent volume configuration",
       "properties": {
         "size": {
           "default": "5Gi",
-          "title": "size",
-          "type": "string"
+          "description": "Size of the persistent volume (minimum 2Gi for slapd)",
+          "required": [],
+          "title": "size"
         }
       },
-      "required": [
-        "size"
-      ],
-      "title": "volume",
-      "type": "object"
+      "required": [],
+      "title": "volume"
     }
   },
-  "required": [
-    "image",
-    "openshift",
-    "volume",
-    "resources",
-    "serviceAccount",
-    "ipaServer",
-    "ingress",
-    "affinity"
-  ],
+  "required": [],
   "type": "object"
 }
