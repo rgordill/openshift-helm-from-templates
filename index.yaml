@@ -7,6 +7,24 @@ entries:
       charts.openshift.io/providerType: Community
     apiVersion: v2
     appVersion: "1"
+    created: "2026-02-19T09:06:27.750096574Z"
+    description: A Helm chart for ipa-server on OpenShift (https://github.com/freeipa/freeipa-container)
+    digest: ecc92401c559fecae19dda3151c14f6e9db39eb93631a7ab1526a3cbd9f08ded
+    icon: https://avatars.githubusercontent.com/u/10979201
+    kubeVersion: '>=1.24.0'
+    name: ipa-server
+    sources:
+    - https://github.com/rgordill/openshift-helm-from-templates/charts
+    type: application
+    urls:
+    - https://github.com/rgordill/openshift-helm-from-templates/releases/download/ipa-server-0.1.1/ipa-server-0.1.1.tgz
+    version: 0.1.1
+  - annotations:
+      charts.openshift.io/name: ipa-server
+      charts.openshift.io/provider: Community
+      charts.openshift.io/providerType: Community
+    apiVersion: v2
+    appVersion: "1"
     created: "2026-02-18T19:41:21.628594134Z"
     description: A Helm chart for ipa-server on OpenShift (https://github.com/freeipa/freeipa-container)
     digest: cb3f03b6c3eac795f96b7bb93f670d5d64bf9335d433391d903bc8905ae9776c
@@ -19,6 +37,24 @@ entries:
     - https://github.com/rgordill/openshift-helm-from-templates/releases/download/ipa-server-0.1.0/ipa-server-0.1.0.tgz
     version: 0.1.0
   postgresql:
+  - annotations:
+      charts.openshift.io/name: PostgreSQL
+      charts.openshift.io/provider: Community
+      charts.openshift.io/providerType: Community
+    apiVersion: v2
+    appVersion: "1"
+    created: "2026-02-19T09:06:27.920707628Z"
+    description: A Helm chart for PostgreSQL database server for development on OpenShift
+    digest: 5a6bf317c35108ea337927d86043e98464334f5f074d8f080d7ef0ac1034668b
+    icon: https://www.postgresql.org/media/img/about/press/elephant.png
+    kubeVersion: '>=1.24.0'
+    name: postgresql
+    sources:
+    - https://github.com/rgordill/openshift-helm-from-templates/charts
+    type: application
+    urls:
+    - https://github.com/rgordill/openshift-helm-from-templates/releases/download/postgresql-0.1.1/postgresql-0.1.1.tgz
+    version: 0.1.1
   - annotations:
       charts.openshift.io/name: postgresql
       charts.openshift.io/provider: Community
@@ -38,6 +74,25 @@ entries:
     version: 0.1.0
   redis:
   - annotations:
+      charts.openshift.io/name: Redis
+      charts.openshift.io/provider: Community
+      charts.openshift.io/providerType: Community
+    apiVersion: v2
+    appVersion: "1"
+    created: "2026-02-19T09:06:28.110870095Z"
+    description: A Helm chart for Redis in-memory data structure store for development
+      on OpenShift
+    digest: 07640612f7416251b13828736c799835f6c91ceb07bb3e491aa7e1485e1d6a51
+    icon: https://upload.wikimedia.org/wikipedia/commons/e/ee/Redis_logo.svg
+    kubeVersion: '>=1.24.0'
+    name: redis
+    sources:
+    - https://github.com/rgordill/openshift-helm-from-templates/charts
+    type: application
+    urls:
+    - https://github.com/rgordill/openshift-helm-from-templates/releases/download/redis-0.1.1/redis-0.1.1.tgz
+    version: 0.1.1
+  - annotations:
       charts.openshift.io/name: redis
       charts.openshift.io/provider: Community
       charts.openshift.io/providerType: Community
@@ -54,4 +109,4 @@ entries:
     urls:
     - https://github.com/rgordill/openshift-helm-from-templates/releases/download/redis-0.1.0/redis-0.1.0.tgz
     version: 0.1.0
-generated: "2026-02-18T19:41:21.898813149Z"
+generated: "2026-02-19T09:06:28.110888459Z"
