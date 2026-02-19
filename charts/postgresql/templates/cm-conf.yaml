@@ -1,9 +1,0 @@
-{{- if .Values.monitor }}
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: {{ include "postgresql.fullname" . }}-conf
-data:
-  10-extensions.conf: |-
-    shared_preload_libraries = 'pg_stat_statements'
-{{ end }}
