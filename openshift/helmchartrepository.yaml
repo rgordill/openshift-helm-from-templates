@@ -3,6 +3,6 @@ kind: HelmChartRepository
 metadata:
   name: openfhift-charts-from-templates
 spec:
-  name: OpenShift AlternativeCharts
+  name: OpenShift Alternative Charts
   connectionConfig:
     url: https://rgordill.github.io/openshift-helm-from-templates/
