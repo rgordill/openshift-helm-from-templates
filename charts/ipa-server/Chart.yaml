@@ -12,5 +12,7 @@ annotations:
   charts.openshift.io/provider: Community
   charts.openshift.io/providerType: Community
 
+icon: https://avatars.githubusercontent.com/u/10979201
+
 sources:
   - https://github.com/rgordill/openshift-helm-from-templates/charts

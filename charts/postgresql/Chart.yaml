@@ -1,6 +1,6 @@
 apiVersion: v2
 name: postgresql
-description: A Helm chart for postgresql (dev) on OpenShift
+description: A Helm chart for PostgreSQL database server for development on OpenShift
 
 type: application
 kubeVersion: '>=1.24.0'
@@ -8,9 +8,11 @@ version: 0.1.0
 appVersion: "1"
 
 annotations:
-  charts.openshift.io/name: postgresql
+  charts.openshift.io/name: PostgreSQL
   charts.openshift.io/provider: Community
   charts.openshift.io/providerType: Community
+
+icon: https://www.postgresql.org/media/img/about/press/elephant.png
 
 sources:
   - https://github.com/rgordill/openshift-helm-from-templates/charts
